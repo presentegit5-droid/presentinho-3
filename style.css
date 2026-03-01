@@ -221,8 +221,8 @@ body {
 }
 
 .special-image {
-  max-width: 200px;
-  width: 100%;
+  max-width: 350px;
+  width: 200%;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
   transition: transform 0.3s ease;
@@ -264,6 +264,6 @@ body {
   }
 
   .special-image {
-    max-width: 160px;
+    max-width: 220px;
   }
 }

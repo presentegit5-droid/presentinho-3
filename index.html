@@ -58,7 +58,7 @@
 
           <div class="images-container">
             <img
-              src="WhatsApp Image 2026-03-01 at 15.10.24.jpeg"
+              src="WhatsApp Image 2026-03-01 at 8.49.55 AM.jpeg"
               alt="Foto especial"
               class="special-image"
             />
@@ -115,11 +115,64 @@
 
       // Timer - counting from January 2, 2025
       function updateTimer() {
-        var startDate = new Date("January 2, 2025 00:00:00").getTime();
-        var now = new Date().getTime();
-        var diff = now - startDate;
+        var startDate = new Date("January 2, 2025 00:00:00");
+        var now = new Date();
+        var diff = now.getTime() - startDate.getTime();
 
-        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        // Calculate years, months, days, hours, minutes, seconds
+        var startYear = startDate.getFullYear();
+        var startMonth = startDate.getMonth();
+        var startDay = startDate.getDate();
+
+        var currentYear = now.getFullYear();
+        var currentMonth = now.getMonth();
+        var currentDay = now.getDate();
+
+        // Calculate years
+        var years = currentYear - startYear;
+
+        // Adjust months if current month is before start month
+        if (currentMonth < startMonth) {
+          years--;
+        } else if (currentMonth === startMonth && currentDay < startDay) {
+          years--;
+        }
+
+        // Calculate months
+        var months = currentMonth - startMonth;
+        if (months < 0) {
+          months += 12;
+        }
+        if (currentDay < startDay) {
+          months--;
+          if (months < 0) {
+            months += 12;
+          }
+        }
+
+        // Calculate remaining days
+        var tempDate = new Date(now);
+        tempDate.setFullYear(startDate.getFullYear() + years);
+        tempDate.setMonth(startDate.getMonth() + months);
+        var daysDiff = Math.floor(
+          (now.getTime() - tempDate.getTime()) / (1000 * 60 * 60 * 24),
+        );
+
+        // If days are negative, adjust
+        if (daysDiff < 0) {
+          months--;
+          if (months < 0) {
+            months += 12;
+            years--;
+          }
+          tempDate = new Date(now);
+          tempDate.setFullYear(startDate.getFullYear() + years);
+          tempDate.setMonth(startDate.getMonth() + months);
+          daysDiff = Math.floor(
+            (now.getTime() - tempDate.getTime()) / (1000 * 60 * 60 * 24),
+          );
+        }
+
         var hours = Math.floor(
           (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
@@ -129,7 +182,18 @@
         var timerElement = document.getElementById("timer-value");
         if (timerElement) {
           timerElement.textContent =
-            days + " dias, " + hours + "h " + minutes + "min " + seconds + "s";
+            years +
+            " anos, " +
+            months +
+            " meses, " +
+            daysDiff +
+            " dias, " +
+            hours +
+            "h " +
+            minutes +
+            "min " +
+            seconds +
+            "s";
         }
       }
     </script>
